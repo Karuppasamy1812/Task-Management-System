@@ -100,6 +100,10 @@ export default function ProjectBoard() {
   );
   if (!project) return <div className="p-8 text-center text-red-500">Project not found</div>;
 
+const capitalize = (str) => {
+   return str ? str.charAt(0).toUpperCase() + str.slice(1) : "";
+};
+
   return (
     <Tooltip.Provider>
       <div className="p-8">
@@ -110,7 +114,7 @@ export default function ProjectBoard() {
               <ArrowLeft size={17} />
             </button>
             <div>
-              <h1 className="text-xl font-bold text-gray-900">{project.name}</h1>
+              <h1 className="text-xl font-bold text-gray-900">{capitalize(project.name)}</h1>
               {project.description && <p className="text-sm text-gray-400 mt-0.5">{project.description}</p>}
             </div>
           </div>
@@ -128,7 +132,7 @@ export default function ProjectBoard() {
                   </Tooltip.Trigger>
                   <Tooltip.Portal>
                     <Tooltip.Content className="bg-gray-900 text-white text-xs px-2.5 py-1.5 rounded-lg shadow-lg" sideOffset={5}>
-                      {m.name}
+                      {capitalize(m.name)}
                       <Tooltip.Arrow className="fill-gray-900" />
                     </Tooltip.Content>
                   </Tooltip.Portal>

@@ -40,7 +40,9 @@ export default function Sidebar() {
     await logout();
     navigate('/login');
   };
-
+const capitalize = (str) => {
+   return str ? str.charAt(0).toUpperCase() + str.slice(1) : "";
+};
   const isActive = (path: string) => location.pathname === path;
 
   return (
@@ -121,7 +123,7 @@ export default function Sidebar() {
               <button
                 key={p._id}
                 onClick={() => navigate(`/project/${p._id}`)}
-                title={p.name}
+                title={capitalize(p.name)}
                 className={cn(
                   'w-full flex items-center gap-3 px-3 py-2 rounded-xl text-sm transition',
                   isActive(`/project/${p._id}`)
@@ -136,7 +138,7 @@ export default function Sidebar() {
                 )}>
                   {p.name[0].toUpperCase()}
                 </div>
-                {!collapsed && <span className="truncate">{p.name}</span>}
+                {!collapsed && <span className="truncate">{capitalize(p.name)}</span>}
               </button>
             ))}
           </div>

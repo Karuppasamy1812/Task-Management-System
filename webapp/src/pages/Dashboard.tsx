@@ -1,12 +1,16 @@
-import { useNavigate } from 'react-router-dom';
-import { FolderKanban, Users, Loader2, Trash2, Clock } from 'lucide-react';
-import { toast } from 'sonner';
-import { useProjects, useDeleteProject } from '../hooks/useProjects';
-import { useAuth } from '../context/AuthContext';
+import { useNavigate } from "react-router-dom";
+import { FolderKanban, Users, Loader2, Trash2, Clock } from "lucide-react";
+import { toast } from "sonner";
+import { useProjects, useDeleteProject } from "../hooks/useProjects";
+import { useAuth } from "../context/AuthContext";
 
 const avatarColors = [
-  'bg-blue-500', 'bg-violet-500', 'bg-emerald-500',
-  'bg-amber-500', 'bg-rose-500', 'bg-cyan-500',
+  "bg-blue-500",
+  "bg-violet-500",
+  "bg-emerald-500",
+  "bg-amber-500",
+  "bg-rose-500",
+  "bg-cyan-500",
 ];
 
 export default function Dashboard() {
@@ -15,26 +19,52 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const { user } = useAuth();
 
+  const capitalize = (str) => {
+   return str ? str.charAt(0).toUpperCase() + str.slice(1) : "";
+};
+
   return (
     <div className="p-8 max-w-6xl mx-auto">
       {/* Page header */}
       <div className="mb-8">
         <h1 className="text-2xl font-bold text-gray-900">
-          Good morning, {user?.name?.split(' ')[0]} 👋
+          Welcome {capitalize(user?.name)}
         </h1>
-        <p className="text-sm text-gray-500 mt-1">Here's an overview of your projects</p>
+        <p className="text-sm text-gray-500 mt-1">
+          Here's an overview of your projects
+        </p>
       </div>
 
       {/* Stats */}
       {!isLoading && projects && (
         <div className="grid grid-cols-3 gap-4 mb-8">
           {[
-            { label: 'Total Projects', value: projects.length, icon: FolderKanban, color: 'text-blue-600 bg-blue-50' },
-            { label: 'Total Members', value: projects.reduce((acc, p) => acc + p.members.length + 1, 0), icon: Users, color: 'text-violet-600 bg-violet-50' },
-            { label: 'Active Lists', value: projects.reduce((acc, p) => acc + p.lists.length, 0), icon: Clock, color: 'text-emerald-600 bg-emerald-50' },
+            {
+              label: "Total Projects",
+              value: projects.length,
+              icon: FolderKanban,
+              color: "text-blue-600 bg-blue-50",
+            },
+            {
+              label: "Total Members",
+              value: projects.reduce((acc, p) => acc + p.members.length + 1, 0),
+              icon: Users,
+              color: "text-violet-600 bg-violet-50",
+            },
+            {
+              label: "Active Lists",
+              value: projects.reduce((acc, p) => acc + p.lists.length, 0),
+              icon: Clock,
+              color: "text-emerald-600 bg-emerald-50",
+            },
           ].map((s) => (
-            <div key={s.label} className="bg-white rounded-2xl border border-gray-100 p-5 flex items-center gap-4 shadow-sm">
-              <div className={`w-11 h-11 rounded-xl flex items-center justify-center ${s.color}`}>
+            <div
+              key={s.label}
+              className="bg-white rounded-2xl border border-gray-100 p-5 flex items-center gap-4 shadow-sm"
+            >
+              <div
+                className={`w-11 h-11 rounded-xl flex items-center justify-center ${s.color}`}
+              >
                 <s.icon size={20} />
               </div>
               <div>
@@ -49,7 +79,9 @@ export default function Dashboard() {
       {/* Projects */}
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-base font-semibold text-gray-800">All Projects</h2>
-        <span className="text-xs text-gray-400">{projects?.length ?? 0} projects</span>
+        <span className="text-xs text-gray-400">
+          {projects?.length ?? 0} projects
+        </span>
       </div>
 
       {isLoading ? (
@@ -62,7 +94,9 @@ export default function Dashboard() {
             <FolderKanban size={24} className="text-gray-300" />
           </div>
           <p className="font-medium text-gray-500">No projects yet</p>
-          <p className="text-sm text-gray-400 mt-1">Click the + button in the sidebar to create one</p>
+          <p className="text-sm text-gray-400 mt-1">
+            Click the + button in the sidebar to create one
+          </p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -78,7 +112,9 @@ export default function Dashboard() {
                 <button
                   onClick={(e) => {
                     e.stopPropagation();
-                    deleteProject.mutate(p._id, { onSuccess: () => toast.success('Project archived') });
+                    deleteProject.mutate(p._id, {
+                      onSuccess: () => toast.success("Project archived"),
+                    });
                   }}
                   className="absolute top-4 right-4 p-1.5 rounded-lg text-gray-300 hover:text-red-400 hover:bg-red-50 transition opacity-0 group-hover:opacity-100"
                 >
@@ -94,7 +130,7 @@ export default function Dashboard() {
                   {p.name}
                 </h2>
                 <p className="text-sm text-gray-400 mt-1 line-clamp-2 leading-relaxed min-h-[40px]">
-                  {p.description || 'No description provided'}
+                  {p.description || "No description provided"}
                 </p>
 
                 {/* Meta */}
